@@ -1,0 +1,11 @@
+You are about to install the ZLockCore software.
+
+For more information and to view the source code,
+ visit this website: https://github.com/zpro11/ZLockCore
+
+--------------------------------------------------------------------------------
+
+Ezennel telepíteni fogja a ZLockCore szoftvert.
+
+További információért, és a forráskód
+megtekintésére tekintse meg ezt a weboldalt: https://github.com/zpro11/ZLockCore

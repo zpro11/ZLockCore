@@ -1,0 +1,15 @@
+Thank you for choosing ZLockCore to protect your data!
+
+For more information and to view the source code,
+ please visit this website: https://github.com/zpro11/ZLockCore
+
+With thanks: Zoárd Gódor, developer of ZLockCore
+
+----------------------------------------------------------------------------------
+
+Köszönöjük hogy a ZLockCore-t választotta az adatai védelmére!
+
+További információért, és a forráskód
+megtekintésére tekintse meg ezt a weboldalt: https://github.com/zpro11/ZLockCore
+
+Köszönettel: Gódor Zoárd a ZLockCore fejlesztője

@@ -277,6 +277,109 @@ def save_vault_status(vault_root: Path, unlocked: bool):
     status = {"unlocked": unlocked}
     status_file.write_text(json.dumps(status), encoding='utf-8')
 
+
+import platform
+class Translator:
+    def __init__(self):
+        self.translations = {
+            'hu': {
+                'title': 'ZLockCore — Széfkezelő',
+                'vaults': 'Széfek',
+                'new_vault': 'Új széf',
+                'import': 'Importálás',
+                'rename': 'Átnevezés',
+                'delete': 'Törlés',
+                'details': 'Széf részletek',
+                'name': 'Név',
+                'desc': 'Leírás',
+                'path': 'Útvonal',
+                'status': 'Státusz',
+                'unlocked': 'Feloldva ✓',
+                'locked': 'Lezárva',
+                'unlock': 'Feloldás',
+                'open': 'Széf megjelenítése',
+                'lock': 'Lezárás',
+                'recover': 'Jelszó visszaállítása',
+                'menu_language': 'Nyelv',
+                'english': 'Angol',
+                'hungarian': 'Magyar',
+            },
+            'en': {
+                'title': 'ZLockCore — Vault Manager',
+                'vaults': 'Vaults',
+                'new_vault': 'New Vault',
+                'import': 'Import',
+                'rename': 'Rename',
+                'delete': 'Delete',
+                'details': 'Vault Details',
+                'name': 'Name',
+                'desc': 'Description',
+                'path': 'Path',
+                'status': 'Status',
+                'unlocked': 'Unlocked ✓',
+                'locked': 'Locked',
+                'unlock': 'Unlock',
+                'open': 'Show Vault',
+                'lock': 'Lock',
+                'recover': 'Password Recovery',
+                'menu_language': 'Language',
+                'english': 'English',
+                'hungarian': 'Hungarian',
+            }
+        }
+        self._load_more_languages()
+        self.language = 'hu'
+        self.config_path = self._get_config_path()
+        self._load_language()
+
+    def _load_more_languages(self):
+        prog_dir = os.path.dirname(sys.argv[0])
+        lang_path = os.path.join(prog_dir, 'more_languages.json')
+        if os.path.isfile(lang_path):
+            try:
+                with open(lang_path, 'r', encoding='utf-8') as f:
+                    langs = json.load(f)
+                    if isinstance(langs, dict):
+                        self.translations.update(langs)
+            except Exception:
+                pass
+
+    def _get_config_path(self):
+        if platform.system() == 'Windows':
+            appdata = os.getenv('APPDATA')
+        else:
+            appdata = os.path.expanduser('~/.config')
+        config_dir = os.path.join(appdata, 'zlockcore')
+        os.makedirs(config_dir, exist_ok=True)
+        return os.path.join(config_dir, 'settings.json')
+
+    def _save_language(self):
+        try:
+            with open(self.config_path, 'w', encoding='utf-8') as f:
+                json.dump({'language': self.language}, f)
+        except Exception:
+            pass
+
+    def _load_language(self):
+        try:
+            with open(self.config_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                if 'language' in data:
+                    self.language = data['language']
+        except Exception:
+            self.language = 'hu'
+
+    def t(self, key):
+        return self.translations.get(self.language, {}).get(key, key)
+
+    def set_language(self, lang):
+        self.language = lang
+        self._save_language()
+
+translator = Translator()
+def _t(key):
+    return translator.t(key)
+
 BG = '#eaf2ff'
 ACCENT = '#2b66d6'
 BTN_BG = '#2b66d6'
@@ -284,18 +387,50 @@ BTN_FG = 'white'
 FONT = ('Segoe UI', 10)
 
 root = Tk()
-root.title('ZLockCore — Vault Manager')
+root.title(_t('title'))
 root.geometry('1200x600')
 root.configure(bg=BG)
 
+def _set_language(lang):
+    translator.set_language(lang)
+    _refresh_ui_texts()
+
+def _refresh_ui_texts():
+    root.title(_t('title'))
+    left_label.config(text=_t('vaults'))
+    btn_new.config(text=_t('new_vault'))
+    btn_import.config(text=_t('import'))
+    btn_rename.config(text=_t('rename'))
+    btn_delete.config(text=_t('delete'))
+    right_label.config(text=_t('details'))
+    info_name.config(text=f"{_t('name')}: —")
+    info_desc.config(text=f"{_t('desc')}: ")
+    info_path.config(text=f"{_t('path')}: ")
+    status_lbl.config(text=f"{_t('status')}: -")
+    unlock_btn.config(text=_t('unlock'))
+    open_btn.config(text=_t('open'))
+    lock_btn.config(text=_t('lock'))
+    recover_btn.config(text=_t('recover'))
+
+menubar = Menu(root)
+lang_menu = Menu(menubar, tearoff=0)
+lang_var = StringVar(value=translator.language)
+for lang_code in translator.translations.keys():
+    lang_menu.add_radiobutton(label=lang_code, value=lang_code, variable=lang_var, command=lambda c=lang_code: _set_language(c))
+menubar.add_cascade(label='Language', menu=lang_menu)
+root.config(menu=menubar)
+
+
 left = Frame(root, bg=BG)
 left.pack(side=LEFT, fill=BOTH, padx=12, pady=12)
-Label(left, text='Széfek', bg=BG, fg='black', font=('Segoe UI', 12, 'bold')).pack(anchor='w')
+left_label = Label(left, text=_t('vaults'), bg=BG, fg='black', font=('Segoe UI', 12, 'bold'))
+left_label.pack(anchor='w')
 vault_listbox = Listbox(left, width=32, height=25, font=FONT)
 vault_listbox.pack(pady=8, fill=BOTH, expand=True)
 
 btn_frame = Frame(left, bg=BG, height=100)
 btn_frame.pack(fill=X, pady=6)
+
 
 def mkbtn(parent, text, cmd):
     b = Button(parent, text=text, command=cmd, bg=BTN_BG, fg=BTN_FG, relief='flat', activebackground=ACCENT, font=FONT, height=2, width=15)
@@ -858,34 +993,41 @@ def rename_vault():
         messagebox.showinfo("Kész", f"A széf sikeresen átnevezve: {new_name}")
     except Exception as e:
         messagebox.showerror("Hiba", f"Az átnevezés sikertelen: {str(e)}")
-mkbtn(btn_frame, 'Új széf', create_vault_dialog).pack(side=LEFT, padx=2, pady=2)
-mkbtn(btn_frame, 'Importálás', lambda: import_vault()).pack(side=LEFT, padx=2, pady=2)
-mkbtn(btn_frame, 'Átnevezés', lambda: rename_vault()).pack(side=LEFT, padx=2, pady=2)
-mkbtn(btn_frame, 'Törlés', lambda: delete_vault()).pack(side=LEFT, padx=2, pady=2)
+
+btn_new = mkbtn(btn_frame, _t('new_vault'), create_vault_dialog)
+btn_new.pack(side=LEFT, padx=2, pady=2)
+btn_import = mkbtn(btn_frame, _t('import'), lambda: import_vault())
+btn_import.pack(side=LEFT, padx=2, pady=2)
+btn_rename = mkbtn(btn_frame, _t('rename'), lambda: rename_vault())
+btn_rename.pack(side=LEFT, padx=2, pady=2)
+btn_delete = mkbtn(btn_frame, _t('delete'), lambda: delete_vault())
+btn_delete.pack(side=LEFT, padx=2, pady=2)
+
 
 right = Frame(root, bg='white', bd=1, relief='solid')
 right.pack(side=LEFT, fill=BOTH, expand=True, padx=(0,12), pady=12)
 right_header = Frame(right, bg=ACCENT)
 right_header.pack(fill=X)
-Label(right_header, text='Széf részletek', bg=ACCENT, fg='white', font=('Segoe UI', 12, 'bold')).pack(side=LEFT, padx=8, pady=8)
+right_label = Label(right_header, text=_t('details'), bg=ACCENT, fg='white', font=('Segoe UI', 12, 'bold'))
+right_label.pack(side=LEFT, padx=8, pady=8)
 detail_frame = Frame(right, bg='white')
 detail_frame.pack(fill=BOTH, expand=True, padx=12, pady=12)
 
-info_name = Label(detail_frame, text='Név: —', bg='white', anchor='w', font=('Segoe UI',11,'bold'))
+info_name = Label(detail_frame, text=f"{_t('name')}: —", bg='white', anchor='w', font=('Segoe UI',11,'bold'))
 info_name.pack(fill=X)
-info_desc = Label(detail_frame, text='Leírás:', bg='white', anchor='w')
+info_desc = Label(detail_frame, text=f"{_t('desc')}: ", bg='white', anchor='w')
 info_desc.pack(fill=X, pady=(4,0))
-info_path = Label(detail_frame, text='Útvonal:', bg='white', anchor='w')
+info_path = Label(detail_frame, text=f"{_t('path')}: ", bg='white', anchor='w')
 info_path.pack(fill=X, pady=(4,10))
-status_lbl = Label(detail_frame, text='Státusz: -', bg='white', anchor='w')
+status_lbl = Label(detail_frame, text=f"{_t('status')}: -", bg='white', anchor='w')
 status_lbl.pack(fill=X, pady=(4,10))
 
 btns = Frame(detail_frame, bg='white')
 btns.pack(pady=8)
-unlock_btn = mkbtn(btns, 'Feloldás', lambda: unlock_vault())
-open_btn = mkbtn(btns, 'Széf megjelenítése', lambda: open_vault())
-lock_btn = mkbtn(btns, 'Lezárás', lambda: lock_vault())
-recover_btn = mkbtn(btns, 'Jelszó visszaállítása', lambda: recover_password())
+unlock_btn = mkbtn(btns, _t('unlock'), lambda: unlock_vault())
+open_btn = mkbtn(btns, _t('open'), lambda: open_vault())
+lock_btn = mkbtn(btns, _t('lock'), lambda: lock_vault())
+recover_btn = mkbtn(btns, _t('recover'), lambda: recover_password())
 unlock_btn.pack(side=LEFT, padx=6, pady=4)
 open_btn.pack(side=LEFT, padx=6, pady=4)
 lock_btn.pack(side=LEFT, padx=6, pady=4)
@@ -894,27 +1036,31 @@ recover_btn.pack(side=LEFT, padx=6, pady=4)
 current_vault = None
 unlocked_master_keys = {}
 
+
 def refresh_vault_list():
     vault_listbox.delete(0, END)
     for name in app_meta.keys():
         vault_listbox.insert(END, name)
 
+
 def clear_detail():
     global current_vault
     current_vault = None
-    info_name.config(text='Név: —')
-    info_desc.config(text='Leírás:')
-    info_path.config(text='Útvonal:')
-    status_lbl.config(text='Státusz: -')
-    unlock_btn.config(state='normal', text='Feloldás')
+    info_name.config(text=f"{_t('name')}: —")
+    info_desc.config(text=f"{_t('desc')}: ")
+    info_path.config(text=f"{_t('path')}: ")
+    status_lbl.config(text=f"{_t('status')}: -")
+    unlock_btn.config(state='normal', text=_t('unlock'))
     open_btn.config(state='disabled')
     lock_btn.config(state='disabled')
     recover_btn.config(state='disabled')
 
 vault_listbox.bind('<<ListboxSelect>>', lambda e: on_vault_select(e) if vault_listbox.curselection() else None)
 
+
 refresh_vault_list()
 clear_detail()
+_refresh_ui_texts()
 def show_meta_path_label():
     pass
 

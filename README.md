@@ -1,71 +1,111 @@
 # ZLockCore — Vault Manager
 
-ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fájlszéf-kezelő alkalmazás Windowsra. A program lehetővé teszi titkosított széfek létrehozását, fájlok biztonságos tárolását, valamint a széfek feloldását, lezárását, importálását, átnevezését és törlését.
+ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
 
-## Fő funkciók
-- Több széf kezelése, mindegyik külön mappában
-- Fájlok titkosítása és visszafejtése AES-GCM algoritmussal
-- Jelszavas és recovery kulcsos (szólistás) védelem
-- Fájlok hozzáadása, visszaállítása, széfek importálása/exportálása
-- Jelszó visszaállítása recovery kulccsal
-- Modern, magyar nyelvű grafikus felület (Tkinter)
-- Pyinstaller-el készített futtatható .exe fájl.
+## Main features
 
-## Az exe manuális elkészítése
+- Manage multiple safes, each in a separate folder
+# ZLockCore — Vault Manager
+
+ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
+
+## Main features
+
+- Manage multiple safes, each in a separate folder
+- Encrypt and decrypt files using the AES-GCM algorithm
+- Password and recovery key (key list) protection
+- Add and restore files, import/export safes
+- Recover passwords with a recovery key
+- Modern, Hungarian-language graphical interface (Tkinter)
+- Executable .exe file created with Pyinstaller.
+
+## Manual creation of the exe
+
 ```sh
-   pip install pyinstaller
-   ```
+pip install pyinstaller
+```
 
 ```sh
-   pyinstaller --clean --onefile --noconsole --noupx --icon=icon.ico main.py
-   ```
+pyinstaller --clean --onefile --noconsole --noupx --icon=icon.ico main.py
+```
 
-## Futtatás
-1. **Python 3.8+ szükséges**
-2. Telepítsd a szükséges csomagokat:
-   ```sh
-   pip install cryptography
-   ```
-3. Futtasd a programot:
-   ```sh
-   python main.py
-   ```
+## Running
 
-Vagy szimplán futtasd a ZLockCore.exe-t vagy a ZLockCore_installer.exe-t
+1. **Python 3.8+ required**
+2. Install the necessary packages:
 
-## Használat
-1. **Új széf létrehozása**
-   - Kattints az "Új széf" gombra
-   - Adj nevet, válassz mappát, állíts be jelszót
-   - (Ajánlott) Recovery kulcs generálása: ezt írd le vagy mentsd el biztonságos helyre!
-2. **Széf feloldása**
-   - Válaszd ki a széfet, majd kattints a "Feloldás" gombra, add meg a jelszót
-3. **Fájlok hozzáadása**
-   - Feloldott széf esetén kattints a "Fájlok hozzáadása" gombra, válaszd ki a fájlokat
-4. **Széf lezárása**
-   - Kattints a "Lezárás" gombra. A fájlok ismét titkosításra kerülnek
-5. **Széf megnyitása**
-   - Feloldott széf esetén kattints a "Széf megjelenítése" gombra
-6. **Jelszó visszaállítása**
-   - "Jelszó visszaállítása" gomb, recovery kulcs megadása után új jelszó állítható be
-7. **Széf importálása/átnevezése/törlése**
-   - A bal oldali listában válaszd ki a széfet, majd a megfelelő gombot
+```sh
+pip install cryptography
+```
 
-## Fájlstruktúra
-- Minden széf egy külön mappában található
-- Titkosított fájlok: `storage/` mappában, `.cbox` kiterjesztéssel
-- Visszafejtett fájlok: `plain/` mappában (csak feloldás után)
-- Metaadatok: `vault.meta.json`, `vault_status.json`
+3. Run the program:
 
-## Licenc
-Lásd: LICENSE.txt
+```sh
+python main.py
+```
 
-## Fejlesztői információk
-- Fő fájl: `main.py`
-- Titkosítás: Scrypt KDF + AES-GCM
+Or simply run ZLockCore.exe or ZLockCore_installer.exe
+
+## Usage
+
+1. **Creating a new safe**
+   - Click on the "New Safe" button
+   - Give it a name, select a folder, set a password
+   - (Recommended) Generate a recovery key: write it down or save it in a safe place!
+
+2. **Unlocking a safe**
+   - Select the safe, then click on the "Unlock" button and enter the password
+
+3. **Adding files**
+   - For an unlocked safe, click the "Add files" button and select the files
+
+4. **Lock safe**
+   - Click the "Lock" button. The files will be encrypted again
+
+5. **Open safe**
+   - For an unlocked safe, click on the "Show safe" button
+
+6. **Resetting the password**
+   - Click on the "Reset password" button, enter the recovery key, and set a new password
+
+7. **Importing/renaming/deleting a safe**
+   - Select the vault from the list on the left, then click the appropriate button
+
+## File structure
+
+- Each vault is located in a separate folder
+- Encrypted files: in the `storage/` folder, with the `.cbox` extension
+- Decrypted files: in the `plain/` folder (only after decryption)
+- Metadata: `vault.meta.json`, `vault_status.json`
+
+## Security tips
+
+- Always save your recovery key in a safe place!
+- Do not share the vault folder or store it in a public place!
+- The program cannot restore your password without the recovery key!
+
+## License
+
+See: LICENSE.txt
+
+## Developer information
+
+- Main file: `main.py`
+- Encryption: Scrypt KDF + AES-GCM
 - GUI: Tkinter
+
+## Multilingualism (language selection)
+
+The program supports multiple languages. By default, you can choose between English and Hungarian.
+
+You can select the language in the "Language" menu in the upper right corner. The selected language is saved and remembered even after restarting the program.
+
+### Adding your own or additional languages
+
+If you want to add/use additional languages, download the file named `more_languages.json` and place it in the folder where `main.py` or `ZLockCore.exe` is located. (ZLockCore_installer automatically installs the more_languages.json file in the program folder)
+
+If this file is present, the program will automatically offer the languages it contains in the menu. If it is not present, you can only choose between the default English and Hungarian.
 
 ---
 
-**Készítette: Gódor Zoárd a ZLockCore fejlesztője**
-
+**Created by: Zoárd Gódor, developer of ZLockCore**
