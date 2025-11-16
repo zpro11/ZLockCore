@@ -1,194 +1,310 @@
 {
-  "en": {
-    "title": "ZLockCore — Vault Manager",
-    "vaults": "Vaults",
-    "new_vault": "New Vault",
-    "import": "Import",
-    "rename": "Rename",
-    "delete": "Delete",
-    "details": "Vault Details",
-    "name": "Name",
-    "desc": "Description",
-    "path": "Path",
-    "status": "Status",
-    "unlocked": "Unlocked ✓",
-    "locked": "Locked",
-    "unlock": "Unlock",
-    "open": "Show Vault",
-    "lock": "Lock",
-    "recover": "Password Recovery",
-    "menu_language": "Language",
-    "english": "English",
-    "hungarian": "Hungarian",
-    "german": "German",
-    "french": "French"
-  ,"error": "Error"
-  ,"ok": "OK"
-  ,"cancel": "Cancel"
-  ,"yes": "Yes"
-  ,"no": "No"
-  ,"password": "Password"
-  ,"password_confirm": "Confirm password:"
-  ,"password_enter": "Enter password:"
-  ,"password_empty": "Password cannot be empty!"
-  ,"passwords_not_match": "Passwords do not match!"
-  ,"vault_name_exists": "This name already exists!"
-  ,"vault_name": "New Vault"
-  ,"vault_name_prompt": "Enter a name for the new vault:"
-  ,"vault_desc": "Description"
-  ,"vault_desc_prompt": "Enter a short description for the vault (optional):"
-  ,"vault_dir_prompt": "Select a folder for the vault (required):"
-  ,"vault_dir_required": "You must select a folder!\n\nWould you like to try again?"
-  ,"recovery_key": "Recovery key"
-  ,"recovery_key_prompt": "Would you like to use a recovery key? (This is for regaining access if you lose your password. It is highly recommended to choose Yes!)"
-  ,"recovery_key_info": "Recovery key (Store it in a safe place! On paper or a USB drive, and do not share it with anyone!):"
-  ,"copy_to_clipboard": "Copy to clipboard"
-  ,"done": "Done"
-  ,"vault_created": "Vault created: {vault_name}"
-  ,"select_vault": "Select a vault!"
-  },
-  "hu": {
-    "title": "ZLockCore — Széfkezelő",
-    "vaults": "Széfek",
-    "new_vault": "Új széf",
-    "import": "Importálás",
-    "rename": "Átnevezés",
-    "delete": "Törlés",
-    "details": "Széf részletek",
-    "name": "Név",
-    "desc": "Leírás",
-    "path": "Útvonal",
-    "status": "Státusz",
-    "unlocked": "Feloldva ✓",
-    "locked": "Lezárva",
-    "unlock": "Feloldás",
-    "open": "Széf megjelenítése",
-    "lock": "Lezárás",
-    "recover": "Jelszó visszaállítása",
-    "menu_language": "Nyelv",
-    "english": "Angol",
-    "hungarian": "Magyar",
-    "german": "Német",
-    "french": "Francia"
-  ,"error": "Hiba"
-  ,"ok": "OK"
-  ,"cancel": "Mégse"
-  ,"yes": "Igen"
-  ,"no": "Nem"
-  ,"password": "Jelszó"
-  ,"password_confirm": "Erősítsd meg a jelszót:"
-  ,"password_enter": "Add meg a jelszót:"
-  ,"password_empty": "A jelszó nem lehet üres!"
-  ,"passwords_not_match": "A jelszavak nem egyeznek!"
-  ,"vault_name_exists": "Ez a név már létezik!"
-  ,"vault_name": "Új széf"
-  ,"vault_name_prompt": "Adj nevet az új széfnek:"
-  ,"vault_desc": "Leírás"
-  ,"vault_desc_prompt": "Adj rövid leírást a széfhez (opcionális):"
-  ,"vault_dir_prompt": "Válassz egy mappát a széfnek (kötelező):"
-  ,"vault_dir_required": "Kötelező mappát választani!\n\nSzeretnél újra próbálkozni?"
-  ,"recovery_key": "Recovery kulcs"
-  ,"recovery_key_prompt": "Szeretnél recovery kulcsot használni? (Ez arra van, hogy jelszó elvesztése esetén vissza tudd állítani a hozzáférést.) Nagyon, nagyon, nagyon ajánlott az igen-re nyomni!"
-  ,"recovery_key_info": "Recovery kulcs (Helyezd biztonságos helyre! Vagy papíron, pendrive-on legyen, és ne ossza meg senkivel!):"
-  ,"copy_to_clipboard": "Másolás vágólapra"
-  ,"done": "Kész"
-  ,"vault_created": "Széf létrehozva: {vault_name}"
-  ,"select_vault": "Válassz egy széfet!"
-  },
-  "de": {
-    "title": "ZLockCore — Tresorverwaltung",
-    "vaults": "Tresore",
-    "new_vault": "Neuer Tresor",
-    "import": "Importieren",
-    "rename": "Umbenennen",
-    "delete": "Löschen",
-    "details": "Tresor Details",
-    "name": "Name",
-    "desc": "Beschreibung",
-    "path": "Pfad",
-    "status": "Status",
-    "unlocked": "Entsperrt ✓",
-    "locked": "Gesperrt",
-    "unlock": "Entsperren",
-    "open": "Tresor anzeigen",
-    "lock": "Sperren",
-    "recover": "Passwort-Wiederherstellung",
-    "menu_language": "Sprache",
-    "english": "Englisch",
-    "hungarian": "Ungarisch",
-    "german": "Deutsch",
-    "french": "Französisch"
-  ,"error": "Fehler"
-  ,"ok": "OK"
-  ,"cancel": "Abbrechen"
-  ,"yes": "Ja"
-  ,"no": "Nein"
-  ,"password": "Passwort"
-  ,"password_confirm": "Passwort bestätigen:"
-  ,"password_enter": "Passwort eingeben:"
-  ,"password_empty": "Passwort darf nicht leer sein!"
-  ,"passwords_not_match": "Passwörter stimmen nicht überein!"
-  ,"vault_name_exists": "Dieser Name existiert bereits!"
-  ,"vault_name": "Neuer Tresor"
-  ,"vault_name_prompt": "Geben Sie einen Namen für den neuen Tresor ein:"
-  ,"vault_desc": "Beschreibung"
-  ,"vault_desc_prompt": "Geben Sie eine kurze Beschreibung für den Tresor ein (optional):"
-  ,"vault_dir_prompt": "Wählen Sie einen Ordner für den Tresor (erforderlich):"
-  ,"vault_dir_required": "Sie müssen einen Ordner auswählen!\n\nMöchten Sie es erneut versuchen?"
-  ,"recovery_key": "Wiederherstellungsschlüssel"
-  ,"recovery_key_prompt": "Möchten Sie einen Wiederherstellungsschlüssel verwenden? (Damit können Sie den Zugriff wiederherstellen, wenn Sie Ihr Passwort verlieren. Es wird dringend empfohlen, Ja zu wählen!)"
-  ,"recovery_key_info": "Wiederherstellungsschlüssel (An einem sicheren Ort aufbewahren! Auf Papier oder USB-Stick, und nicht weitergeben!):"
-  ,"copy_to_clipboard": "In die Zwischenablage kopieren"
-  ,"done": "Fertig"
-  ,"vault_created": "Tresor erstellt: {vault_name}"
-  ,"select_vault": "Wählen Sie einen Tresor!"
-  },
-  "fr": {
-    "title": "ZLockCore — Gestionnaire de Coffres",
-    "vaults": "Coffres",
-    "new_vault": "Nouveau Coffre",
-    "import": "Importer",
-    "rename": "Renommer",
-    "delete": "Supprimer",
-    "details": "Détails du Coffre",
-    "name": "Nom",
-    "desc": "Description",
-    "path": "Chemin",
-    "status": "Statut",
-    "unlocked": "Déverrouillé ✓",
-    "locked": "Verrouillé",
-    "unlock": "Déverrouiller",
-    "open": "Afficher le Coffre",
-    "lock": "Verrouiller",
-    "recover": "Récupération du mot de passe",
-    "menu_language": "Langue",
-    "english": "Anglais",
-    "hungarian": "Hongrois",
-    "german": "Allemand",
-    "french": "Français"
-  ,"error": "Erreur"
-  ,"ok": "OK"
-  ,"cancel": "Annuler"
-  ,"yes": "Oui"
-  ,"no": "Non"
-  ,"password": "Mot de passe"
-  ,"password_confirm": "Confirmez le mot de passe:"
-  ,"password_enter": "Entrez le mot de passe:"
-  ,"password_empty": "Le mot de passe ne peut pas être vide!"
-  ,"passwords_not_match": "Les mots de passe ne correspondent pas!"
-  ,"vault_name_exists": "Ce nom existe déjà!"
-  ,"vault_name": "Nouveau Coffre"
-  ,"vault_name_prompt": "Entrez un nom pour le nouveau coffre:"
-  ,"vault_desc": "Description"
-  ,"vault_desc_prompt": "Entrez une brève description pour le coffre (optionnel):"
-  ,"vault_dir_prompt": "Sélectionnez un dossier pour le coffre (obligatoire):"
-  ,"vault_dir_required": "Vous devez sélectionner un dossier!\n\nVoulez-vous réessayer?"
-  ,"recovery_key": "Clé de récupération"
-  ,"recovery_key_prompt": "Voulez-vous utiliser une clé de récupération? (Ceci sert à restaurer l'accès si vous perdez votre mot de passe. Il est fortement recommandé de choisir Oui!)"
-  ,"recovery_key_info": "Clé de récupération (Conservez-la en lieu sûr! Sur papier ou clé USB, et ne la partagez avec personne!):"
-  ,"copy_to_clipboard": "Copier dans le presse-papiers"
-  ,"done": "Terminé"
-  ,"vault_created": "Coffre créé: {vault_name}"
-  ,"select_vault": "Sélectionnez un coffre!"
-  }
+    "hu": {
+        "title": "ZLockCore — Széfkezelő",
+        "vaults": "Széfek",
+        "new_vault": "Új széf",
+        "import": "Importálás",
+        "rename": "Átnevezés",
+        "delete": "Törlés",
+        "details": "Széf részletek",
+        "name": "Név",
+        "desc": "Leírás",
+        "path": "Útvonal",
+        "status": "Státusz",
+        "unlocked": "Feloldva ✓",
+        "locked": "Lezárva",
+        "unlock": "Feloldás",
+        "open": "Széf megjelenítése",
+        "lock": "Lezárás",
+        "recover": "Jelszó visszaállítása",
+        "menu_language": "Nyelv",
+        "english": "Angol",
+        "hungarian": "Magyar",
+        "error": "Hiba",
+        "ok": "OK",
+        "cancel": "Mégse",
+        "yes": "Igen",
+        "no": "Nem",
+        "info": "Info",
+        "confirm": "Megerősítés",
+        "password": "Jelszó",
+        "password_confirm": "Erősítsd meg a jelszót:",
+        "password_enter": "Add meg a jelszót:",
+        "password_empty": "A jelszó nem lehet üres!",
+        "passwords_not_match": "A jelszavak nem egyeznek!",
+        "vault_name_exists": "Ez a név már létezik!",
+        "vault_name": "Új széf",
+        "vault_name_prompt": "Adj nevet az új széfnek:",
+        "vault_desc": "Leírás",
+        "vault_desc_prompt": "Adj rövid leírást a széfhez (opcionális):",
+        "vault_dir_prompt": "Válassz egy mappát a széfnek (kötelező):",
+        "vault_dir_required": "Kötelező mappát választani!\n\nSzeretnél újra próbálkozni?",
+        "recovery_key": "Recovery kulcs",
+        "recovery_key_prompt": "Szeretnél recovery kulcsot használni? (Ez arra van, hogy jelszó elvesztése esetén vissza tudd állítani a hozzáférést.) Nagyon, nagyon, nagyon ajánlott az igen-re nyomni!",
+        "recovery_key_info": "Recovery kulcs (Helyezd biztonságos helyre! Vagy papíron, pendrive-on legyen, és ne ossza meg senkivel!):",
+        "copy_to_clipboard": "Másolás vágólapra",
+        "done": "Kész",
+        "vault_created": "Széf létrehozva: {vault_name}",
+        "select_vault": "Válassz egy széfet!",
+        "already_unlocked": "A széf már fel van oldva! (vault_status.json)",
+        "unlock_failed": "A feloldás sikertelen: {error}",
+        "meta_load_failed": "Nem lehet betölteni a széf metaadatait!",
+        "lock_pw_needed": "Lezárás - jelszó szükséges, mert a program újraindult",
+        "lock_failed": "A lezárás sikertelen, hibás jelszó vagy metaadat: {error}",
+        "not_selected": "Nincs kiválasztva széf!",
+        "lock_first": "Előbb zárja le a széfet, majd oldja fel újra!",
+        "open_failed": "Nem lehet megnyitni a széfet: {error}",
+        "no_recovery": "Ennek a széfnek nincs recovery kulcsa beállítva!",
+        "recovery_empty": "A recovery kulcs nem lehet üres!",
+        "new_password": "Új jelszó",
+        "enter_new_password": "Add meg az új jelszót:",
+        "password_updated": "A jelszó sikeresen frissítve!",
+        "recovery_failed": "A helyreállítás sikertelen: {error}",
+        "import_vault_dir": "Válassz egy széf mappát az importáláshoz",
+        "not_valid_vault": "Ez nem egy érvényes széf mappa!",
+        "vault_exists": "A '{vault_name}' nevű széf már létezik!",
+        "import_success": "A széf sikeresen importálva: {vault_name}",
+        "import_failed": "Az importálás sikertelen!\nMappa: {vault_path}\nHiba: {error}",
+        "delete_select": "Válassz egy széfet a törléshez!",
+        "delete_confirm": "Biztosan törölni szeretnéd a '{vault_name}' széfet?\nEz nem vonható vissza!",
+        "delete_success": "A '{vault_name}' széf sikeresen törölve!",
+        "delete_failed": "A törlés sikertelen: {error}",
+        "rename_select": "Válassz egy széfet az átnevezéshez!",
+        "rename_title": "Széf átnevezése",
+        "rename_prompt": "Add meg az új nevet a '{vault_name}' széfnek:",
+        "rename_exists": "Ez a név már létezik!",
+        "rename_success": "A széf sikeresen átnevezve: {new_name}",
+        "rename_failed": "Az átnevezés sikertelen: {error}"
+    },
+    "en": {
+        "title": "ZLockCore — Vault Manager",
+        "vaults": "Vaults",
+        "new_vault": "New Vault",
+        "import": "Import",
+        "rename": "Rename",
+        "delete": "Delete",
+        "details": "Vault Details",
+        "name": "Name",
+        "desc": "Description",
+        "path": "Path",
+        "status": "Status",
+        "unlocked": "Unlocked ✓",
+        "locked": "Locked",
+        "unlock": "Unlock",
+        "open": "Show Vault",
+        "lock": "Lock",
+        "recover": "Password Recovery",
+        "menu_language": "Language",
+        "english": "English",
+        "hungarian": "Hungarian",
+        "error": "Error",
+        "ok": "OK",
+        "cancel": "Cancel",
+        "yes": "Yes",
+        "no": "No",
+        "info": "Info",
+        "confirm": "Confirmation",
+        "password": "Password",
+        "password_confirm": "Confirm password:",
+        "password_enter": "Enter password:",
+        "password_empty": "Password cannot be empty!",
+        "passwords_not_match": "Passwords do not match!",
+        "vault_name_exists": "This name already exists!",
+        "vault_name": "New Vault",
+        "vault_name_prompt": "Enter a name for the new vault:",
+        "vault_desc": "Description",
+        "vault_desc_prompt": "Enter a short description for the vault (optional):",
+        "vault_dir_prompt": "Select a folder for the vault (required):",
+        "vault_dir_required": "You must select a folder!\n\nWould you like to try again?",
+        "recovery_key": "Recovery key",
+        "recovery_key_prompt": "Would you like to use a recovery key? (This is for regaining access if you lose your password. It is highly recommended to choose Yes!)",
+        "recovery_key_info": "Recovery key (Store it in a safe place! On paper or a USB drive, and do not share it with anyone!):",
+        "copy_to_clipboard": "Copy to clipboard",
+        "done": "Done",
+        "vault_created": "Vault created: {vault_name}",
+        "select_vault": "Select a vault!",
+        "already_unlocked": "The vault is already unlocked! (vault_status.json)",
+        "unlock_failed": "Unlock failed: {error}",
+        "meta_load_failed": "Could not load vault metadata!",
+        "lock_pw_needed": "Lock - password required because the program was restarted",
+        "lock_failed": "Lock failed, wrong password or metadata: {error}",
+        "not_selected": "No vault selected!",
+        "lock_first": "Please lock the vault first, then unlock again!",
+        "open_failed": "Could not open the vault: {error}",
+        "no_recovery": "This vault does not have a recovery key set!",
+        "recovery_empty": "Recovery key cannot be empty!",
+        "new_password": "New password",
+        "enter_new_password": "Enter the new password:",
+        "password_updated": "Password updated successfully!",
+        "recovery_failed": "Recovery failed: {error}",
+        "import_vault_dir": "Select a vault folder to import",
+        "not_valid_vault": "This is not a valid vault folder!",
+        "vault_exists": "A vault named '{vault_name}' already exists!",
+        "import_success": "Vault imported successfully: {vault_name}",
+        "import_failed": "Import failed!\nFolder: {vault_path}\nError: {error}",
+        "delete_select": "Select a vault to delete!",
+        "delete_confirm": "Are you sure you want to delete the vault '{vault_name}'?\nThis cannot be undone!",
+        "delete_success": "Vault deleted successfully: {vault_name}",
+        "delete_failed": "Delete failed: {error}",
+        "rename_select": "Select a vault to rename!",
+        "rename_title": "Rename vault",
+        "rename_prompt": "Enter a new name for the vault '{vault_name}':",
+        "rename_exists": "This name already exists!",
+        "rename_success": "Vault renamed successfully: {new_name}",
+        "rename_failed": "Rename failed: {error}"
+    },
+    "de": {
+        "title": "ZLockCore — Tresorverwaltung",
+        "vaults": "Tresore",
+        "new_vault": "Neuer Tresor",
+        "import": "Importieren",
+        "rename": "Umbenennen",
+        "delete": "Löschen",
+        "details": "Tresor-Details",
+        "name": "Name",
+        "desc": "Beschreibung",
+        "path": "Pfad",
+        "status": "Status",
+        "unlocked": "Entsperrt ✓",
+        "locked": "Gesperrt",
+        "unlock": "Entsperren",
+        "open": "Tresor anzeigen",
+        "lock": "Sperren",
+        "recover": "Passwort-Wiederherstellung",
+        "menu_language": "Sprache",
+        "english": "Englisch",
+        "hungarian": "Ungarisch",
+        "error": "Fehler",
+        "ok": "OK",
+        "cancel": "Abbrechen",
+        "yes": "Ja",
+        "no": "Nein",
+        "info": "Info",
+        "confirm": "Bestätigung",
+        "password": "Passwort",
+        "password_confirm": "Passwort bestätigen:",
+        "password_enter": "Passwort eingeben:",
+        "password_empty": "Passwort darf nicht leer sein!",
+        "passwords_not_match": "Passwörter stimmen nicht überein!",
+        "vault_name_exists": "Dieser Name existiert bereits!",
+        "vault_name": "Neuer Tresor",
+        "vault_name_prompt": "Geben Sie einen Namen für den neuen Tresor ein:",
+        "vault_desc": "Beschreibung",
+        "vault_desc_prompt": "Geben Sie eine kurze Beschreibung für den Tresor ein (optional):",
+        "vault_dir_prompt": "Wählen Sie einen Ordner für den Tresor (erforderlich):",
+        "vault_dir_required": "Sie müssen einen Ordner auswählen!\n\nMöchten Sie es erneut versuchen?",
+        "recovery_key": "Wiederherstellungsschlüssel",
+        "recovery_key_prompt": "Möchten Sie einen Wiederherstellungsschlüssel verwenden? (Dies dient dazu, den Zugriff wiederherzustellen, falls Sie Ihr Passwort verlieren. Es wird dringend empfohlen, Ja zu wählen!)",
+        "recovery_key_info": "Wiederherstellungsschlüssel (An einem sicheren Ort aufbewahren! Auf Papier oder USB-Stick, und nicht mit anderen teilen!):",
+        "copy_to_clipboard": "In Zwischenablage kopieren",
+        "done": "Fertig",
+        "vault_created": "Tresor erstellt: {vault_name}",
+        "select_vault": "Wählen Sie einen Tresor!",
+        "already_unlocked": "Der Tresor ist bereits entsperrt! (vault_status.json)",
+        "unlock_failed": "Entsperren fehlgeschlagen: {error}",
+        "meta_load_failed": "Tresor-Metadaten konnten nicht geladen werden!",
+        "lock_pw_needed": "Sperren - Passwort erforderlich, da das Programm neu gestartet wurde",
+        "lock_failed": "Sperren fehlgeschlagen, falsches Passwort oder Metadaten: {error}",
+        "not_selected": "Kein Tresor ausgewählt!",
+        "lock_first": "Bitte sperren Sie zuerst den Tresor und entsperren Sie ihn dann erneut!",
+        "open_failed": "Tresor konnte nicht geöffnet werden: {error}",
+        "no_recovery": "Für diesen Tresor ist kein Wiederherstellungsschlüssel festgelegt!",
+        "recovery_empty": "Wiederherstellungsschlüssel darf nicht leer sein!",
+        "new_password": "Neues Passwort",
+        "enter_new_password": "Geben Sie das neue Passwort ein:",
+        "password_updated": "Passwort erfolgreich aktualisiert!",
+        "recovery_failed": "Wiederherstellung fehlgeschlagen: {error}",
+        "import_vault_dir": "Wählen Sie einen Tresor-Ordner zum Importieren",
+        "not_valid_vault": "Dies ist kein gültiger Tresor-Ordner!",
+        "vault_exists": "Ein Tresor mit dem Namen '{vault_name}' existiert bereits!",
+        "import_success": "Tresor erfolgreich importiert: {vault_name}",
+        "import_failed": "Import fehlgeschlagen!\nOrdner: {vault_path}\nFehler: {error}",
+        "delete_select": "Wählen Sie einen Tresor zum Löschen!",
+        "delete_confirm": "Sind Sie sicher, dass Sie den Tresor '{vault_name}' löschen möchten?\nDies kann nicht rückgängig gemacht werden!",
+        "delete_success": "Tresor erfolgreich gelöscht: {vault_name}",
+        "delete_failed": "Löschen fehlgeschlagen: {error}",
+        "rename_select": "Wählen Sie einen Tresor zum Umbenennen!",
+        "rename_title": "Tresor umbenennen",
+        "rename_prompt": "Geben Sie einen neuen Namen für den Tresor '{vault_name}' ein:",
+        "rename_exists": "Dieser Name existiert bereits!",
+        "rename_success": "Tresor erfolgreich umbenannt: {new_name}",
+        "rename_failed": "Umbenennen fehlgeschlagen: {error}"
+    },
+    "fr": {
+        "title": "ZLockCore — Gestionnaire de Coffres",
+        "vaults": "Coffres",
+        "new_vault": "Nouveau coffre",
+        "import": "Importer",
+        "rename": "Renommer",
+        "delete": "Supprimer",
+        "details": "Détails du coffre",
+        "name": "Nom",
+        "desc": "Description",
+        "path": "Chemin",
+        "status": "Statut",
+        "unlocked": "Déverrouillé ✓",
+        "locked": "Verrouillé",
+        "unlock": "Déverrouiller",
+        "open": "Afficher le coffre",
+        "lock": "Verrouiller",
+        "recover": "Récupération du mot de passe",
+        "menu_language": "Langue",
+        "english": "Anglais",
+        "hungarian": "Hongrois",
+        "error": "Erreur",
+        "ok": "OK",
+        "cancel": "Annuler",
+        "yes": "Oui",
+        "no": "Non",
+        "info": "Info",
+        "confirm": "Confirmation",
+        "password": "Mot de passe",
+        "password_confirm": "Confirmez le mot de passe :",
+        "password_enter": "Entrez le mot de passe :",
+        "password_empty": "Le mot de passe ne peut pas être vide !",
+        "passwords_not_match": "Les mots de passe ne correspondent pas !",
+        "vault_name_exists": "Ce nom existe déjà !",
+        "vault_name": "Nouveau coffre",
+        "vault_name_prompt": "Entrez un nom pour le nouveau coffre :",
+        "vault_desc": "Description",
+        "vault_desc_prompt": "Entrez une brève description pour le coffre (optionnel) :",
+        "vault_dir_prompt": "Sélectionnez un dossier pour le coffre (obligatoire) :",
+        "vault_dir_required": "Vous devez sélectionner un dossier !\n\nVoulez-vous réessayer ?",
+        "recovery_key": "Clé de récupération",
+        "recovery_key_prompt": "Voulez-vous utiliser une clé de récupération ? (Ceci sert à retrouver l'accès si vous perdez votre mot de passe. Il est fortement recommandé de choisir Oui !)",
+        "recovery_key_info": "Clé de récupération (Conservez-la en lieu sûr ! Sur papier ou clé USB, et ne la partagez avec personne !) :",
+        "copy_to_clipboard": "Copier dans le presse-papiers",
+        "done": "Terminé",
+        "vault_created": "Coffre créé : {vault_name}",
+        "select_vault": "Sélectionnez un coffre !",
+        "already_unlocked": "Le coffre est déjà déverrouillé ! (vault_status.json)",
+        "unlock_failed": "Échec du déverrouillage : {error}",
+        "meta_load_failed": "Impossible de charger les métadonnées du coffre !",
+        "lock_pw_needed": "Verrouillage - mot de passe requis car le programme a redémarré",
+        "lock_failed": "Échec du verrouillage, mot de passe ou métadonnées incorrects : {error}",
+        "not_selected": "Aucun coffre sélectionné !",
+        "lock_first": "Veuillez d'abord verrouiller le coffre, puis le déverrouiller à nouveau !",
+        "open_failed": "Impossible d'ouvrir le coffre : {error}",
+        "no_recovery": "Ce coffre n'a pas de clé de récupération définie !",
+        "recovery_empty": "La clé de récupération ne peut pas être vide !",
+        "new_password": "Nouveau mot de passe",
+        "enter_new_password": "Entrez le nouveau mot de passe :",
+        "password_updated": "Mot de passe mis à jour avec succès !",
+        "recovery_failed": "Échec de la récupération : {error}",
+        "import_vault_dir": "Sélectionnez un dossier de coffre à importer",
+        "not_valid_vault": "Ce n'est pas un dossier de coffre valide !",
+        "vault_exists": "Un coffre nommé '{vault_name}' existe déjà !",
+        "import_success": "Coffre importé avec succès : {vault_name}",
+        "import_failed": "Échec de l'importation !\nDossier : {vault_path}\nErreur : {error}",
+        "delete_select": "Sélectionnez un coffre à supprimer !",
+        "delete_confirm": "Êtes-vous sûr de vouloir supprimer le coffre '{vault_name}' ?\nCeci est irréversible !",
+        "delete_success": "Coffre supprimé avec succès : {vault_name}",
+        "delete_failed": "Échec de la suppression : {error}",
+        "rename_select": "Sélectionnez un coffre à renommer !",
+        "rename_title": "Renommer le coffre",
+        "rename_prompt": "Entrez un nouveau nom pour le coffre '{vault_name}' :",
+        "rename_exists": "Ce nom existe déjà !",
+        "rename_success": "Coffre renommé avec succès : {new_name}",
+        "rename_failed": "Échec du renommage : {error}"
+    }
 }

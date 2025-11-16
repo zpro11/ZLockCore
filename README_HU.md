@@ -21,7 +21,7 @@ ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fá
    ```
 ## Telepítés és futtatás
 
-Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer.exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_executable.zip fájlt. (Linuxra a ZLockCore_executable_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist.
+Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer.exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_executable.zip fájlt. (Linuxra a ZLockCore_executable_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist. (Linuxon előbb adj engedéjezd hogy ez programként futhasson. terminálba írd be: chmod +X [A futtatható bináris neve])
 
 (Az Installer az Inno Setup Compiler nevű szoftverrel készült)
 
@@ -48,6 +48,7 @@ Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.co
    - Feloldott széf esetén kattints a "Fájlok hozzáadása" gombra, válaszd ki a fájlokat
 4. **Széf lezárása**
    - Kattints a "Lezárás" gombra. A fájlok ismét titkosításra kerülnek
+   - (Ha a széf mappát tartalmazott, a mappa felbomlik, vagyis minden amit a mappa tartalmazott, kijön belőle, és a mappa törlődik. de a fájlok nem vesznek el.)
 5. **Széf megnyitása**
    - Feloldott széf esetén kattints a "Széf megjelenítése" gombra
 6. **Jelszó visszaállítása**

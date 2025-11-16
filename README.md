@@ -21,7 +21,7 @@ ZLockCore is a graphical file vault manager application for Windows, protected b
    ```
 ## Installation and Running
 
-Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer.exe for a standard system-wide installation, or the ZLockCore_executable.zip file. (For Linux, use the ZLockCore_executable_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary.
+Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer.exe for a standard system-wide installation, or the ZLockCore_executable.zip file. (For Linux, use the ZLockCore_executable_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary. (On Linux, first allow it to run as a program. Type the following into the terminal: chmod +X [The name of the executable binary])
 
 (The installer was created using software called Inno Setup Compiler.)
 
@@ -48,6 +48,7 @@ Find the latest version of the program at: https://github.com/zpro11/ZLockCore/r
    - With the vault unlocked, click the "Add Files" button and select the files
 4. **Lock the vault**
    - Click the "Lock" button. The files will be encrypted again
+   - (If the safe contained a folder, the folder will be broken up, meaning that everything contained in the folder will be removed from it and the folder will be deleted. However, the files will not be lost.)
 5. **Open the vault**
    - With the vault unlocked, click the "Show Vault" button
 6. **Reset password**

@@ -166,9 +166,18 @@ def encrypt_plain_back_and_cleanup(vault_root: Path, master_key: bytes):
     plain_dir = vault_root / PLAIN_DIRNAME
     if not plain_dir.exists():
         return
-    for p in list(plain_dir.iterdir()):
-        if p.is_file():
-            store_plain_file_to_vault(vault_root, master_key, p)
+    def encrypt_recursive(path):
+        if path.is_file():
+            store_plain_file_to_vault(vault_root, master_key, path)
+        elif path.is_dir():
+            for child in list(path.iterdir()):
+                encrypt_recursive(child)
+            try:
+                if not any(path.iterdir()):
+                    path.rmdir()
+            except Exception:
+                pass
+    encrypt_recursive(plain_dir)
     try:
         if not any(plain_dir.iterdir()):
             plain_dir.rmdir()
@@ -308,6 +317,8 @@ class Translator:
                 'cancel': 'Mégse',
                 'yes': 'Igen',
                 'no': 'Nem',
+                'info': 'Info',
+                'confirm': 'Megerősítés',
                 'password': 'Jelszó',
                 'password_confirm': 'Erősítsd meg a jelszót:',
                 'password_enter': 'Add meg a jelszót:',
@@ -327,6 +338,35 @@ class Translator:
                 'done': 'Kész',
                 'vault_created': 'Széf létrehozva: {vault_name}',
                 'select_vault': 'Válassz egy széfet!',
+                'already_unlocked': 'A széf már fel van oldva! (vault_status.json)',
+                'unlock_failed': 'A feloldás sikertelen: {error}',
+                'meta_load_failed': 'Nem lehet betölteni a széf metaadatait!',
+                'lock_pw_needed': 'Lezárás - jelszó szükséges, mert a program újraindult',
+                'lock_failed': 'A lezárás sikertelen, hibás jelszó vagy metaadat: {error}',
+                'not_selected': 'Nincs kiválasztva széf!',
+                'lock_first': 'Előbb zárja le a széfet, majd oldja fel újra!',
+                'open_failed': 'Nem lehet megnyitni a széfet: {error}',
+                'no_recovery': 'Ennek a széfnek nincs recovery kulcsa beállítva!',
+                'recovery_empty': 'A recovery kulcs nem lehet üres!',
+                'new_password': 'Új jelszó',
+                'enter_new_password': 'Add meg az új jelszót:',
+                'password_updated': 'A jelszó sikeresen frissítve!',
+                'recovery_failed': 'A helyreállítás sikertelen: {error}',
+                'import_vault_dir': 'Válassz egy széf mappát az importáláshoz',
+                'not_valid_vault': 'Ez nem egy érvényes széf mappa!',
+                'vault_exists': "A '{vault_name}' nevű széf már létezik!",
+                'import_success': "A széf sikeresen importálva: {vault_name}",
+                'import_failed': "Az importálás sikertelen!\nMappa: {vault_path}\nHiba: {error}",
+                'delete_select': 'Válassz egy széfet a törléshez!',
+                'delete_confirm': "Biztosan törölni szeretnéd a '{vault_name}' széfet?\nEz nem vonható vissza!",
+                'delete_success': "A '{vault_name}' széf sikeresen törölve!",
+                'delete_failed': 'A törlés sikertelen: {error}',
+                'rename_select': 'Válassz egy széfet az átnevezéshez!',
+                'rename_title': 'Széf átnevezése',
+                'rename_prompt': "Add meg az új nevet a '{vault_name}' széfnek:",
+                'rename_exists': 'Ez a név már létezik!',
+                'rename_success': "A széf sikeresen átnevezve: {new_name}",
+                'rename_failed': 'Az átnevezés sikertelen: {error}',
             },
             'en': {
                 'title': 'ZLockCore — Vault Manager',
@@ -354,6 +394,8 @@ class Translator:
                 'cancel': 'Cancel',
                 'yes': 'Yes',
                 'no': 'No',
+                'info': 'Info',
+                'confirm': 'Confirmation',
                 'password': 'Password',
                 'password_confirm': 'Confirm password:',
                 'password_enter': 'Enter password:',
@@ -373,6 +415,35 @@ class Translator:
                 'done': 'Done',
                 'vault_created': 'Vault created: {vault_name}',
                 'select_vault': 'Select a vault!',
+                'already_unlocked': 'The vault is already unlocked! (vault_status.json)',
+                'unlock_failed': 'Unlock failed: {error}',
+                'meta_load_failed': 'Could not load vault metadata!',
+                'lock_pw_needed': 'Lock - password required because the program was restarted',
+                'lock_failed': 'Lock failed, wrong password or metadata: {error}',
+                'not_selected': 'No vault selected!',
+                'lock_first': 'Please lock the vault first, then unlock again!',
+                'open_failed': 'Could not open the vault: {error}',
+                'no_recovery': 'This vault does not have a recovery key set!',
+                'recovery_empty': 'Recovery key cannot be empty!',
+                'new_password': 'New password',
+                'enter_new_password': 'Enter the new password:',
+                'password_updated': 'Password updated successfully!',
+                'recovery_failed': 'Recovery failed: {error}',
+                'import_vault_dir': 'Select a vault folder to import',
+                'not_valid_vault': 'This is not a valid vault folder!',
+                'vault_exists': "A vault named '{vault_name}' already exists!",
+                'import_success': "Vault imported successfully: {vault_name}",
+                'import_failed': "Import failed!\nFolder: {vault_path}\nError: {error}",
+                'delete_select': 'Select a vault to delete!',
+                'delete_confirm': "Are you sure you want to delete the vault '{vault_name}'?\nThis cannot be undone!",
+                'delete_success': "Vault deleted successfully: {vault_name}",
+                'delete_failed': 'Delete failed: {error}',
+                'rename_select': 'Select a vault to rename!',
+                'rename_title': 'Rename vault',
+                'rename_prompt': "Enter a new name for the vault '{vault_name}':",
+                'rename_exists': 'This name already exists!',
+                'rename_success': "Vault renamed successfully: {new_name}",
+                'rename_failed': 'Rename failed: {error}',
             }
         }
         self._load_more_languages()
@@ -616,15 +687,13 @@ def create_vault_dialog():
 def unlock_vault():
     global current_vault, unlocked_master_keys
     if not current_vault:
-        messagebox.showwarning("Hiba", "Válassz egy széfet!")
+        messagebox.showwarning(_t('error'), _t('select_vault'))
         return
-    
     vault_root = Path(app_meta[current_vault])
     plain_dir = vault_root / PLAIN_DIRNAME
-    
     vault_status = load_vault_status(vault_root)
     if vault_status.get("unlocked", False):
-        messagebox.showinfo("Info", "A széf már fel van oldva! (vault_status.json)")
+        messagebox.showinfo(_t('info'), _t('already_unlocked'))
         return
     
     def ask_password(title):
@@ -635,7 +704,7 @@ def unlock_vault():
         win.resizable(False, False)
         pw_var = StringVar()
         show_pw = BooleanVar(value=False)
-        Label(win, text="Add meg a jelszót:", font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
+        Label(win, text=_t('password_enter'), font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
         pw_entry = Entry(win, textvariable=pw_var, show='*', font=FONT, width=32)
         pw_entry.grid(row=0, column=1, padx=8, pady=8)
         pw_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -648,26 +717,26 @@ def unlock_vault():
         def ok():
             val = pw_var.get()
             if not val:
-                messagebox.showwarning("Hiba", "A jelszó nem lehet üres!", parent=win)
+                messagebox.showwarning(_t('error'), _t('password_empty'), parent=win)
                 return
             result['pw'] = val
             win.destroy()
         def cancel():
             win.destroy()
-        Button(win, text="OK", command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
-        Button(win, text="Mégse", command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
+        Button(win, text=_t('ok'), command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
+        Button(win, text=_t('cancel'), command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
         pw_entry.focus_set()
         win.wait_window()
         return result['pw']
 
-    password = ask_password("Feloldás")
+    password = ask_password(_t('unlock'))
     if not password:
         return
 
     try:
         vault_meta = load_vault_meta(vault_root)
         if not vault_meta:
-            messagebox.showerror("Hiba", "Nem lehet betölteni a széf metaadatait!")
+            messagebox.showerror(_t('error'), _t('meta_load_failed'))
             return
         salt_pwd = base64.b64decode(vault_meta['salt_pwd'])
         key_pwd = derive_key(password, salt_pwd)
@@ -681,12 +750,12 @@ def unlock_vault():
             if storage_dir.exists():
                 shutil.rmtree(storage_dir)
         save_vault_status(vault_root, True)
-        unlock_btn.config(state='disabled', text='Feloldva ✓')
+        unlock_btn.config(state='disabled', text=_t('unlocked'))
         open_btn.config(state='normal')
         lock_btn.config(state='normal')
-        status_lbl.config(text='Státusz: Feloldva')
+        status_lbl.config(text=f"{_t('status')}: {_t('unlocked')}")
     except Exception as e:
-        messagebox.showerror("Hiba", f"A feloldás sikertelen: {str(e)}")
+        messagebox.showerror(_t('error'), _t('unlock_failed').format(error=str(e)))
 
 def lock_vault():
     global current_vault, unlocked_master_keys
@@ -706,7 +775,7 @@ def lock_vault():
             win.resizable(False, False)
             pw_var = StringVar()
             show_pw = BooleanVar(value=False)
-            Label(win, text="Add meg a jelszót:", font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
+            Label(win, text=_t('password_enter'), font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
             pw_entry = Entry(win, textvariable=pw_var, show='*', font=FONT, width=32)
             pw_entry.grid(row=0, column=1, padx=8, pady=8)
             pw_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -719,32 +788,32 @@ def lock_vault():
             def ok():
                 val = pw_var.get()
                 if not val:
-                    messagebox.showwarning("Hiba", "A jelszó nem lehet üres!", parent=win)
+                    messagebox.showwarning(_t('error'), _t('password_empty'), parent=win)
                     return
                 result['pw'] = val
                 win.destroy()
             def cancel():
                 win.destroy()
-            Button(win, text="OK", command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
-            Button(win, text="Mégse", command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
+            Button(win, text=_t('ok'), command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
+            Button(win, text=_t('cancel'), command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
             pw_entry.focus_set()
             win.wait_window()
             return result['pw']
 
-        password = ask_password("Lezárás - jelszó szükséges, mert a program újraindult")
+        password = ask_password(_t('lock_pw_needed'))
         if not password:
             return
         try:
             vault_meta = load_vault_meta(vault_root)
             if not vault_meta:
-                messagebox.showerror("Hiba", "Nem lehet betölteni a széf metaadatait!")
+                messagebox.showerror(_t('error'), _t('meta_load_failed'))
                 return
             salt_pwd = base64.b64decode(vault_meta['salt_pwd'])
             key_pwd = derive_key(password, salt_pwd)
             enc_master_pwd = base64.b64decode(vault_meta['enc_master_pwd'])
             master_key = aes_decrypt(key_pwd, enc_master_pwd)
         except Exception as e:
-            messagebox.showerror("Hiba", f"A lezárás sikertelen, hibás jelszó vagy metaadat: {str(e)}")
+            messagebox.showerror(_t('error'), _t('lock_failed').format(error=str(e)))
             return
     else:
         master_key = unlocked_master_keys[current_vault]
@@ -758,17 +827,17 @@ def lock_vault():
 
     save_vault_status(vault_root, False)
     lock_btn.config(state='disabled')
-    unlock_btn.config(state='normal', text='Feloldás')
+    unlock_btn.config(state='normal', text=_t('unlock'))
     open_btn.config(state='disabled')
-    status_lbl.config(text='Státusz: Lezárva')
+    status_lbl.config(text=f"{_t('status')}: {_t('locked')}")
 
 def open_vault():
     global current_vault, unlocked_master_keys
     if not current_vault:
-        messagebox.showwarning("Hiba", "Nincs kiválasztva széf!")
+        messagebox.showwarning(_t('error'), _t('not_selected'))
         return
     if current_vault not in unlocked_master_keys:
-        messagebox.showwarning("Hiba", "Előbb zárja le a széfet, majd oldja fel újra!")
+        messagebox.showwarning(_t('error'), _t('lock_first'))
         return
     try:
         vault_root = Path(app_meta[current_vault])
@@ -784,45 +853,13 @@ def open_vault():
         else:
             pass
     except Exception as e:
-        messagebox.showerror("Hiba", f"Nem lehet megnyitni a széfet: {str(e)}")
+        messagebox.showerror(_t('error'), _t('open_failed').format(error=str(e)))
 
-def add_files_to_vault():
-    global current_vault, unlocked_master_keys
-    if not current_vault or current_vault not in unlocked_master_keys:
-        messagebox.showwarning("Hiba", "A széf nincs feloldva!")
-        return
-    
-    try:
-        files = filedialog.askopenfilenames("Válassz fájlokat", parent=root)
-        if not files:
-            return
-        
-        vault_root = Path(app_meta[current_vault])
-        plain_dir = vault_root / PLAIN_DIRNAME
-        plain_dir.mkdir(parents=True, exist_ok=True)
-        
-        added_count = 0
-        for file_path in files:
-            src = Path(file_path)
-            dst = plain_dir / src.name
-            
-            i = 1
-            base = src.name
-            while dst.exists():
-                dst = plain_dir / f"{src.stem}_{i}{src.suffix}"
-                i += 1
-            
-            shutil.copy2(src, dst)
-            added_count += 1
-        
-        messagebox.showinfo("Kész", f"{added_count} fájl hozzáadva a széfhez!\nHelye: {plain_dir}")
-    except Exception as e:
-        messagebox.showerror("Hiba", f"Hiba a fájlok hozzáadásakor: {str(e)}")
 
 def recover_password():
     global current_vault
     if not current_vault:
-        messagebox.showwarning("Hiba", "Válassz egy széfet!")
+        messagebox.showwarning(_t('error'), _t('select_vault'))
         return
     
     try:
@@ -832,17 +869,17 @@ def recover_password():
             master_key = unlocked_master_keys[current_vault]
         else:
             if not vault_meta.get('recovery_enabled', False):
-                messagebox.showinfo("Info", "Ennek a széfnek nincs recovery kulcsa beállítva!")
+                messagebox.showinfo(_t('info'), _t('no_recovery'))
                 return
             def ask_recovery_key():
                 win = Toplevel(root)
-                win.title("Jelszó helyreállítás")
+                win.title(_t('recover'))
                 win.transient(root)
                 win.grab_set()
                 win.resizable(False, False)
                 rec_var = StringVar()
                 show_rec = BooleanVar(value=False)
-                Label(win, text="Add meg a recovery kulcsot:", font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
+                Label(win, text=_t('recovery_key'), font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
                 rec_entry = Entry(win, textvariable=rec_var, show='*', font=FONT, width=32)
                 rec_entry.grid(row=0, column=1, padx=8, pady=8)
                 rec_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -855,14 +892,14 @@ def recover_password():
                 def ok():
                     val = rec_var.get()
                     if not val:
-                        messagebox.showwarning("Hiba", "A recovery kulcs nem lehet üres!", parent=win)
+                        messagebox.showwarning(_t('error'), _t('recovery_empty'), parent=win)
                         return
                     result['key'] = val
                     win.destroy()
                 def cancel():
                     win.destroy()
-                Button(win, text="OK", command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
-                Button(win, text="Mégse", command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
+                Button(win, text=_t('ok'), command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
+                Button(win, text=_t('cancel'), command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
                 rec_entry.focus_set()
                 win.wait_window()
                 return result['key']
@@ -876,13 +913,13 @@ def recover_password():
 
         def ask_new_password():
             win = Toplevel(root)
-            win.title("Új jelszó")
+            win.title(_t('new_password'))
             win.transient(root)
             win.grab_set()
             win.resizable(False, False)
             pw_var = StringVar()
             show_pw = BooleanVar(value=False)
-            Label(win, text="Add meg az új jelszót:", font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
+            Label(win, text=_t('enter_new_password'), font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
             pw_entry = Entry(win, textvariable=pw_var, show='*', font=FONT, width=32)
             pw_entry.grid(row=0, column=1, padx=8, pady=8)
             pw_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -895,14 +932,14 @@ def recover_password():
             def ok():
                 val = pw_var.get()
                 if not val:
-                    messagebox.showwarning("Hiba", "A jelszó nem lehet üres!", parent=win)
+                    messagebox.showwarning(_t('error'), _t('password_empty'), parent=win)
                     return
                 result['pw'] = val
                 win.destroy()
             def cancel():
                 win.destroy()
-            Button(win, text="OK", command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
-            Button(win, text="Mégse", command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
+            Button(win, text=_t('ok'), command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=1, column=1, pady=12)
+            Button(win, text=_t('cancel'), command=cancel, font=FONT, width=10).grid(row=1, column=2, pady=12)
             pw_entry.focus_set()
             win.wait_window()
             return result['pw']
@@ -919,12 +956,12 @@ def recover_password():
         vault_meta['salt_pwd'] = base64.b64encode(salt_pwd).decode('ascii')
         update_vault_meta(vault_root, vault_meta)
 
-        messagebox.showinfo("Kész", "A jelszó sikeresen frissítve!")
+        messagebox.showinfo(_t('done'), _t('password_updated'))
     except Exception as e:
-        messagebox.showerror("Hiba", f"A helyreállítás sikertelen: {str(e)}")
+        messagebox.showerror(_t('error'), _t('recovery_failed').format(error=str(e)))
 
 def import_vault():
-    import_dir = filedialog.askdirectory(title="Válassz egy széf mappát az importáláshoz", parent=root)
+    import_dir = filedialog.askdirectory(title=_t('import_vault_dir'), parent=root)
     if not import_dir:
         return
     
@@ -932,58 +969,51 @@ def import_vault():
     
     vault_meta_file = import_path / VAULT_META
     if not vault_meta_file.exists():
-        messagebox.showerror("Hiba", "Ez nem egy érvényes széf mappa!")
+        messagebox.showerror(_t('error'), _t('not_valid_vault'))
         return
     
     vault_name = import_path.name
     if vault_name in app_meta:
-        messagebox.showerror("Hiba", f"A '{vault_name}' nevű széf már létezik!")
+        messagebox.showerror(_t('error'), _t('vault_exists').format(vault_name=vault_name))
         return
     
     try:
         app_meta[vault_name] = str(import_path)
         save_app_meta(app_meta)
         refresh_vault_list()
-        messagebox.showinfo("Kész", f"A széf sikeresen importálva: {vault_name}")
+        messagebox.showinfo(_t('done'), _t('import_success').format(vault_name=vault_name))
     except Exception as e:
         messagebox.showerror(
-            "Hiba",
-            f"Az importálás sikertelen!\nMappa: {import_path}\nHiba: {str(e)}"
+            _t('error'),
+            _t('import_failed').format(vault_path=import_path, error=str(e))
         )
 
 def delete_vault():
     global current_vault, unlocked_master_keys
     if not current_vault:
-        messagebox.showwarning("Hiba", "Válassz egy széfet a törléshez!")
+        messagebox.showwarning(_t('error'), _t('delete_select'))
         return
-    
     response = messagebox.askyesno(
-        "Megerősítés",
-        f"Biztosan törölni szeretnéd a '{current_vault}' széfet?\nEz nem vonható vissza!",
+        _t('confirm'),
+        _t('delete_confirm').format(vault_name=current_vault),
         parent=root
     )
-    
     if not response:
         return
-    
     try:
         vault_root = Path(app_meta[current_vault])
-        
         if current_vault in unlocked_master_keys:
             del unlocked_master_keys[current_vault]
-        
         if vault_root.exists():
             shutil.rmtree(vault_root)
-        
         del app_meta[current_vault]
         save_app_meta(app_meta)
-        
         current_vault = None
         refresh_vault_list()
         clear_detail()
-        messagebox.showinfo("Kész", f"A '{current_vault}' széf sikeresen törölve!")
+        messagebox.showinfo(_t('done'), _t('delete_success').format(vault_name=current_vault))
     except Exception as e:
-        messagebox.showerror("Hiba", f"A törlés sikertelen: {str(e)}")
+        messagebox.showerror(_t('error'), _t('delete_failed').format(error=str(e)))
 
 def on_vault_select(event):
     global current_vault
@@ -1005,20 +1035,19 @@ def on_vault_select(event):
     is_unlocked = vault_status.get("unlocked", False)
     
     vault_meta = load_vault_meta(vault_root)
-    description = vault_meta.get('description', '(nincs leírás)') if vault_meta else '(nincs leírás)'
-    
-    info_name.config(text=f'Név: {vault_name}')
-    info_path.config(text=f'Útvonal: {vault_root}')
-    info_desc.config(text=f'Leírás: {description}')
-    
+    description = vault_meta.get('description', '-') if vault_meta else '-'
+    info_name.config(text=f"{_t('name')}: {vault_name}")
+    info_path.config(text=f"{_t('path')}: {vault_root}")
+    info_desc.config(text=f"{_t('desc')}: {description}")
     if is_unlocked:
-        unlock_btn.config(state='disabled', text='Feloldva ✓')
+        unlock_btn.config(state='disabled', text=_t('unlocked'))
         open_btn.config(state='normal')
         lock_btn.config(state='normal')
         recover_btn.config(state='normal')
+        status_lbl.config(text=f"{_t('status')}: {_t('unlocked')}")
     else:
-        status_lbl.config(text='Státusz: Lezárva')
-        unlock_btn.config(state='normal', text='Feloldás')
+        status_lbl.config(text=f"{_t('status')}: {_t('locked')}")
+        unlock_btn.config(state='normal', text=_t('unlock'))
         open_btn.config(state='disabled')
         lock_btn.config(state='disabled')
         recover_btn.config(state='normal')
@@ -1026,13 +1055,13 @@ def on_vault_select(event):
 def rename_vault():
     global current_vault, app_meta
     if not current_vault:
-        messagebox.showwarning("Hiba", "Válassz egy széfet az átnevezéshez!")
+        messagebox.showwarning(_t('error'), _t('rename_select'))
         return
-    new_name = simpledialog.askstring("Széf átnevezése", f"Add meg az új nevet a '{current_vault}' széfnek:", parent=root)
+    new_name = simpledialog.askstring(_t('rename_title'), _t('rename_prompt').format(vault_name=current_vault), parent=root)
     if not new_name or new_name == current_vault:
         return
     if new_name in app_meta:
-        messagebox.showerror("Hiba", "Ez a név már létezik!")
+        messagebox.showerror(_t('error'), _t('rename_exists'))
         return
     try:
         old_path = Path(app_meta[current_vault])
@@ -1045,9 +1074,9 @@ def rename_vault():
         current_vault = new_name
         refresh_vault_list()
         clear_detail()
-        messagebox.showinfo("Kész", f"A széf sikeresen átnevezve: {new_name}")
+        messagebox.showinfo(_t('done'), _t('rename_success').format(new_name=new_name))
     except Exception as e:
-        messagebox.showerror("Hiba", f"Az átnevezés sikertelen: {str(e)}")
+        messagebox.showerror(_t('error'), _t('rename_failed').format(error=str(e)))
 
 btn_new = mkbtn(btn_frame, _t('new_vault'), create_vault_dialog)
 btn_new.pack(side=LEFT, padx=2, pady=2)
