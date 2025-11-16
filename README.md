@@ -2,110 +2,84 @@
 
 ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
 
-## Main features
-
-- Manage multiple safes, each in a separate folder
-# ZLockCore — Vault Manager
-
-ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
-
-## Main features
-
-- Manage multiple safes, each in a separate folder
+## Main Features
+- Manage multiple vaults, each in a separate folder
 - Encrypt and decrypt files using the AES-GCM algorithm
-- Password and recovery key (key list) protection
-- Add and restore files, import/export safes
-- Recover passwords with a recovery key
+- Password and recovery key (word list) protection
+- Add and restore files, import/export vaults
+- Password reset with recovery key
 - Modern, Hungarian-language graphical interface (Tkinter)
-- Executable .exe file created with Pyinstaller.
+- Executable .exe file created with PyInstaller
 
-## Manual creation of the exe
+## Creating the exe manually
+```sh
+   pip install pyinstaller
+   ```
 
 ```sh
-pip install pyinstaller
-```
+   pyinstaller --clean --onedir --noconsole --noupx --icon=icon.ico main.py
+   ```
+## Installation and Running
 
-```sh
-pyinstaller --clean --onefile --noconsole --noupx --icon=icon.ico main.py
-```
+Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer.exe for a standard system-wide installation, or the ZLockCore_executable.zip file. (For Linux, use the ZLockCore_executable_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary.
 
-## Running
+# Running main.py:
 
 1. **Python 3.8+ required**
-2. Install the necessary packages:
-
-```sh
-pip install cryptography
-```
-
+2. Install the required packages:
+   ```sh
+   pip install cryptography
+   ```
 3. Run the program:
-
-```sh
-python main.py
-```
-
-Or simply run ZLockCore.exe or ZLockCore_installer.exe
+   ```sh
+   python main.py
+   ```
 
 ## Usage
-
-1. **Creating a new safe**
-   - Click on the "New Safe" button
-   - Give it a name, select a folder, set a password
-   - (Recommended) Generate a recovery key: write it down or save it in a safe place!
-
-2. **Unlocking a safe**
-   - Select the safe, then click on the "Unlock" button and enter the password
-
-3. **Adding files**
-   - For an unlocked safe, click the "Add files" button and select the files
-
-4. **Lock safe**
+1. **Create a new vault**
+   - Click the "New Vault" button
+   - Enter a name, choose a folder, set a password
+   - (Recommended) Generate a recovery key: write it down or save it in a secure place!
+2. **Unlock a vault**
+   - Select the vault, then click the "Unlock" button and enter the password
+3. **Add files**
+   - With the vault unlocked, click the "Add Files" button and select the files
+4. **Lock the vault**
    - Click the "Lock" button. The files will be encrypted again
+5. **Open the vault**
+   - With the vault unlocked, click the "Show Vault" button
+6. **Reset password**
+   - "Reset Password" button: after entering the recovery key, a new password can be set
+7. **Import/rename/delete vault**
+   - In the list on the left, select the vault and then the appropriate button
 
-5. **Open safe**
-   - For an unlocked safe, click on the "Show safe" button
-
-6. **Resetting the password**
-   - Click on the "Reset password" button, enter the recovery key, and set a new password
-
-7. **Importing/renaming/deleting a safe**
-   - Select the vault from the list on the left, then click the appropriate button
-
-## File structure
-
+## File Structure
 - Each vault is located in a separate folder
-- Encrypted files: in the `storage/` folder, with the `.cbox` extension
-- Decrypted files: in the `plain/` folder (only after decryption)
+- Encrypted files: in the `storage/` folder, with `.cbox` extension
+- Decrypted files: in the `plain/` folder (only after unlocking)
 - Metadata: `vault.meta.json`, `vault_status.json`
 
-## Security tips
-
-- Always save your recovery key in a safe place!
-- Do not share the vault folder or store it in a public place!
-- The program cannot restore your password without the recovery key!
-
 ## License
-
 See: LICENSE.txt
+BY INSTALLING AND USING THE PROGRAM, YOU ACCEPT THE LICENSE AGREEMENT.
 
-## Developer information
-
+## Developer Information
 - Main file: `main.py`
 - Encryption: Scrypt KDF + AES-GCM
 - GUI: Tkinter
 
-## Multilingualism (language selection)
+## Multilingual Support (Language Selection)
 
 The program supports multiple languages. By default, you can choose between English and Hungarian.
 
-You can select the language in the "Language" menu in the upper right corner. The selected language is saved and remembered even after restarting the program.
+You can select the language under the "Language" menu in the top right corner. The selected language will be saved and remembered after restarting the program.
 
-### Adding your own or additional languages
+### Adding Your Own or More Languages
 
-If you want to add/use additional languages, download the file named `more_languages.json` and place it in the folder where `main.py` or `ZLockCore.exe` is located. (ZLockCore_installer automatically installs the more_languages.json file in the program folder)
+If you want to add/use more languages, download the `more_languages.json` file and place this extension in the folder where `main.py` or `ZLockCore.exe` is located. (On Linux, place it in the folder containing the executable binary.) (The ZLockCore_installer automatically installs the more_languages.json file into the program folder.)
 
-If this file is present, the program will automatically offer the languages it contains in the menu. If it is not present, you can only choose between the default English and Hungarian.
+If this file is present, the program will automatically offer the languages listed in it in the menu. If not, only the default English and Hungarian will be available.
 
 ---
 
-**Created by: Zoárd Gódor, developer of ZLockCore**
+**Created by Zoárd Gódor, developer of ZLockCore**

@@ -303,6 +303,30 @@ class Translator:
                 'menu_language': 'Nyelv',
                 'english': 'Angol',
                 'hungarian': 'Magyar',
+                'error': 'Hiba',
+                'ok': 'OK',
+                'cancel': 'Mégse',
+                'yes': 'Igen',
+                'no': 'Nem',
+                'password': 'Jelszó',
+                'password_confirm': 'Erősítsd meg a jelszót:',
+                'password_enter': 'Add meg a jelszót:',
+                'password_empty': 'A jelszó nem lehet üres!',
+                'passwords_not_match': 'A jelszavak nem egyeznek!',
+                'vault_name_exists': 'Ez a név már létezik!',
+                'vault_name': 'Új széf',
+                'vault_name_prompt': 'Adj nevet az új széfnek:',
+                'vault_desc': 'Leírás',
+                'vault_desc_prompt': 'Adj rövid leírást a széfhez (opcionális):',
+                'vault_dir_prompt': 'Válassz egy mappát a széfnek (kötelező):',
+                'vault_dir_required': 'Kötelező mappát választani!\n\nSzeretnél újra próbálkozni?',
+                'recovery_key': 'Recovery kulcs',
+                'recovery_key_prompt': 'Szeretnél recovery kulcsot használni? (Ez arra van, hogy jelszó elvesztése esetén vissza tudd állítani a hozzáférést.) Nagyon, nagyon, nagyon ajánlott az igen-re nyomni!',
+                'recovery_key_info': 'Recovery kulcs (Helyezd biztonságos helyre! Vagy papíron, pendrive-on legyen, és ne ossza meg senkivel!):',
+                'copy_to_clipboard': 'Másolás vágólapra',
+                'done': 'Kész',
+                'vault_created': 'Széf létrehozva: {vault_name}',
+                'select_vault': 'Válassz egy széfet!',
             },
             'en': {
                 'title': 'ZLockCore — Vault Manager',
@@ -325,6 +349,30 @@ class Translator:
                 'menu_language': 'Language',
                 'english': 'English',
                 'hungarian': 'Hungarian',
+                'error': 'Error',
+                'ok': 'OK',
+                'cancel': 'Cancel',
+                'yes': 'Yes',
+                'no': 'No',
+                'password': 'Password',
+                'password_confirm': 'Confirm password:',
+                'password_enter': 'Enter password:',
+                'password_empty': 'Password cannot be empty!',
+                'passwords_not_match': 'Passwords do not match!',
+                'vault_name_exists': 'This name already exists!',
+                'vault_name': 'New Vault',
+                'vault_name_prompt': 'Enter a name for the new vault:',
+                'vault_desc': 'Description',
+                'vault_desc_prompt': 'Enter a short description for the vault (optional):',
+                'vault_dir_prompt': 'Select a folder for the vault (required):',
+                'vault_dir_required': 'You must select a folder!\n\nWould you like to try again?',
+                'recovery_key': 'Recovery key',
+                'recovery_key_prompt': 'Would you like to use a recovery key? (This is for regaining access if you lose your password. It is highly recommended to choose Yes!)',
+                'recovery_key_info': 'Recovery key (Store it in a safe place! On paper or a USB drive, and do not share it with anyone!):',
+                'copy_to_clipboard': 'Copy to clipboard',
+                'done': 'Done',
+                'vault_created': 'Vault created: {vault_name}',
+                'select_vault': 'Select a vault!',
             }
         }
         self._load_more_languages()
@@ -388,7 +436,7 @@ FONT = ('Segoe UI', 10)
 
 root = Tk()
 root.title(_t('title'))
-root.geometry('1200x600')
+root.geometry('1400x600')
 root.configure(bg=BG)
 
 def _set_language(lang):
@@ -412,6 +460,13 @@ def _refresh_ui_texts():
     lock_btn.config(text=_t('lock'))
     recover_btn.config(text=_t('recover'))
 
+    root.update_idletasks()
+    left_panel_width = left.winfo_reqwidth() if left.winfo_ismapped() else 300
+    right_panel_width = right.winfo_reqwidth() if 'right' in globals() and right.winfo_ismapped() else 600
+    min_width = max(left_panel_width + right_panel_width + 60, 800)
+    min_height = 600
+    root.geometry(f"{min_width}x{min_height}")
+
 menubar = Menu(root)
 lang_menu = Menu(menubar, tearoff=0)
 lang_var = StringVar(value=translator.language)
@@ -433,13 +488,13 @@ btn_frame.pack(fill=X, pady=6)
 
 
 def mkbtn(parent, text, cmd):
-    b = Button(parent, text=text, command=cmd, bg=BTN_BG, fg=BTN_FG, relief='flat', activebackground=ACCENT, font=FONT, height=2, width=15)
+    b = Button(parent, text=text, command=cmd, bg=BTN_BG, fg=BTN_FG, relief='flat', activebackground=ACCENT, font=FONT, height=2)
     return b
 
-def ask_password_with_confirm(parent=None, title="Jelszó"):
+def ask_password_with_confirm(parent=None, title=None):
     def get_password():
         win = Toplevel(parent)
-        win.title(title)
+        win.title(_t('password'))
         win.transient(parent)
         win.grab_set()
         win.resizable(False, False)
@@ -453,7 +508,7 @@ def ask_password_with_confirm(parent=None, title="Jelszó"):
         def toggle_confirm(event=None):
             confirm_entry.config(show='' if show_confirm.get() else '*')
 
-        Label(win, text="Add meg a jelszót:", font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
+        Label(win, text=_t('password_enter'), font=FONT).grid(row=0, column=0, sticky='w', padx=8, pady=8)
         pw_entry = Entry(win, textvariable=pw_var, show='*', font=FONT, width=24)
         pw_entry.grid(row=0, column=1, padx=8, pady=8)
         pw_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -461,7 +516,7 @@ def ask_password_with_confirm(parent=None, title="Jelszó"):
         pw_eye.bind('<ButtonPress-1>', lambda e: show_pw.set(True) or toggle_pw())
         pw_eye.bind('<ButtonRelease-1>', lambda e: show_pw.set(False) or toggle_pw())
 
-        Label(win, text="Erősítsd meg a jelszót:", font=FONT).grid(row=1, column=0, sticky='w', padx=8, pady=8)
+        Label(win, text=_t('password_confirm'), font=FONT).grid(row=1, column=0, sticky='w', padx=8, pady=8)
         confirm_entry = Entry(win, textvariable=confirm_var, show='*', font=FONT, width=24)
         confirm_entry.grid(row=1, column=1, padx=8, pady=8)
         confirm_eye = Button(win, text='👁', relief='flat', font=FONT, width=2)
@@ -475,18 +530,18 @@ def ask_password_with_confirm(parent=None, title="Jelszó"):
             pw = pw_var.get()
             confirm = confirm_var.get()
             if not pw:
-                messagebox.showwarning("Hiba", "A jelszó nem lehet üres!", parent=win)
+                messagebox.showwarning(_t('error'), _t('password_empty'), parent=win)
                 return
             if pw != confirm:
-                messagebox.showerror("Hiba", "A jelszavak nem egyeznek!", parent=win)
+                messagebox.showerror(_t('error'), _t('passwords_not_match'), parent=win)
                 return
             result['password'] = pw
             win.destroy()
         def cancel():
             win.destroy()
 
-        Button(win, text="OK", command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=2, column=1, pady=12)
-        Button(win, text="Mégse", command=cancel, font=FONT, width=10).grid(row=2, column=2, pady=12)
+        Button(win, text=_t('ok'), command=ok, bg=BTN_BG, fg=BTN_FG, font=FONT, width=10).grid(row=2, column=1, pady=12)
+        Button(win, text=_t('cancel'), command=cancel, font=FONT, width=10).grid(row=2, column=2, pady=12)
         pw_entry.focus_set()
         win.wait_window()
         return result['password']
@@ -498,30 +553,30 @@ def ask_password_with_confirm(parent=None, title="Jelszó"):
         return password
 
 def create_vault_dialog():
-    vault_name = simpledialog.askstring("Új széf", "Adj nevet az új széfnek:", parent=root)
+    vault_name = simpledialog.askstring(_t('vault_name'), _t('vault_name_prompt'), parent=root)
     if not vault_name:
         return
     if vault_name in app_meta:
-        messagebox.showerror("Hiba", "Ez a név már létezik!")
+        messagebox.showerror(_t('error'), _t('vault_name_exists'))
         return
 
-    description = simpledialog.askstring("Leírás", "Adj rövid leírást a széfhez (opcionális):", parent=root)
+    description = simpledialog.askstring(_t('vault_desc'), _t('vault_desc_prompt'), parent=root)
 
     vault_dir = None
     while not vault_dir:
-        vault_dir = filedialog.askdirectory(title="Válassz egy mappát a széfnek (kötelező):", parent=root)
+        vault_dir = filedialog.askdirectory(title=_t('vault_dir_prompt'), parent=root)
         if not vault_dir:
-            response = messagebox.askyesno("Hiba", "Kötelező mappát választani!\n\nSzeretnél újra próbálkozni?", parent=root)
+            response = messagebox.askyesno(_t('error'), _t('vault_dir_required'), parent=root)
             if not response:
                 return
     
     vault_root = Path(vault_dir) / f'ZLockCore_{vault_name}'
 
-    password = ask_password_with_confirm(parent=root, title="Jelszó")
+    password = ask_password_with_confirm(parent=root)
     if not password:
         return
 
-    use_recovery = messagebox.askyesno("Recovery kulcs", "Szeretnél recovery kulcsot használni? (Ez arra van, hogy jelszó elvesztése esetén vissza tudd állítani a hozzáférést.) Nagyon, nagyon, nagyon ajánlott az igen-re nyomni!")
+    use_recovery = messagebox.askyesno(_t('recovery_key'), _t('recovery_key_prompt'))
     recovery_phrase = None
     if use_recovery:
         recovery_phrase = generate_recovery_phrase(24)
@@ -537,11 +592,11 @@ def create_vault_dialog():
     if recovery_phrase:
         def show_recovery_phrase(phrase):
             win = Toplevel(root)
-            win.title("Recovery kulcs")
+            win.title(_t('recovery_key'))
             win.transient(root)
             win.grab_set()
             win.resizable(False, False)
-            Label(win, text="Recovery kulcs (Helyezd biztonságos helyre! Vagy papíron, pendrive-on legyen, és ne ossza meg senkivel!):", font=FONT).pack(padx=12, pady=(12,4))
+            Label(win, text=_t('recovery_key_info'), font=FONT).pack(padx=12, pady=(12,4))
             entry = Entry(win, font=FONT, width=80)
             entry.pack(padx=12, pady=8)
             entry.insert(0, phrase)
@@ -550,13 +605,13 @@ def create_vault_dialog():
             def copy():
                 win.clipboard_clear()
                 win.clipboard_append(phrase)
-            Button(win, text="Másolás vágólapra", command=copy, font=FONT, bg=BTN_BG, fg=BTN_FG).pack(pady=(0,12))
-            Button(win, text="OK", command=win.destroy, font=FONT, width=10).pack(pady=(0,12))
+            Button(win, text=_t('copy_to_clipboard'), command=copy, font=FONT, bg=BTN_BG, fg=BTN_FG).pack(pady=(0,12))
+            Button(win, text=_t('ok'), command=win.destroy, font=FONT, width=10).pack(pady=(0,12))
             win.wait_window()
         show_recovery_phrase(recovery_phrase)
-        messagebox.showinfo("Kész", f"Széf létrehozva: {vault_name}")
+        messagebox.showinfo(_t('done'), _t('vault_created').format(vault_name=vault_name))
     else:
-        messagebox.showinfo("Kész", f"Széf létrehozva: {vault_name}")
+        messagebox.showinfo(_t('done'), _t('vault_created').format(vault_name=vault_name))
 
 def unlock_vault():
     global current_vault, unlocked_master_keys

@@ -17,10 +17,14 @@ ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fá
    ```
 
 ```sh
-   pyinstaller --clean --onefile --noconsole --noupx --icon=icon.ico main.py
+   pyinstaller --clean --onedir --noconsole --noupx --icon=icon.ico main.py
    ```
+## Telepítés és futtatás
 
-## Futtatás
+Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer.exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_executable.zip fájlt. (Linuxra a ZLockCore_executable_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist.
+
+# main.py futtatása:
+
 1. **Python 3.8+ szükséges**
 2. Telepítsd a szükséges csomagokat:
    ```sh
@@ -30,8 +34,6 @@ ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fá
    ```sh
    python main.py
    ```
-
-Vagy szimplán futtasd a ZLockCore.exe-t vagy a ZLockCore_installer.exe-t
 
 ## Használat
 1. **Új széf létrehozása**
@@ -57,13 +59,9 @@ Vagy szimplán futtasd a ZLockCore.exe-t vagy a ZLockCore_installer.exe-t
 - Visszafejtett fájlok: `plain/` mappában (csak feloldás után)
 - Metaadatok: `vault.meta.json`, `vault_status.json`
 
-## Biztonsági tanácsok
-- Recovery kulcsot mindig mentsd el biztonságos helyre!
-- A széf mappáját ne oszd meg, ne tárold nyilvános helyen!
-- A program nem tudja visszaállítani a jelszót recovery kulcs nélkül!
-
 ## Licenc
 Lásd: LICENSE.txt
+A PROGRAM TELEPÍTÉSÉVEL ÉS HASZNÁLATÁVAL ELFOGADOD A LICENC SZERZŐDÉST.
 
 ## Fejlesztői információk
 - Fő fájl: `main.py`
@@ -78,7 +76,7 @@ Nyelvet a jobb felső sarokban található "Language" menü alatt lehet választ
 
 ### Saját vagy további nyelvek hozzáadása
 
-Ha szeretnél további nyelveket hozzáadni/használni, tölsd le a `more_languages.json` nevű fájlt, és rakd abba a mappába, ahol a `main.py` vagy a `ZLockCore.exe` található. (A ZLockCore_installer automatikusan telepíti a more_laungages.json fájlt a program mappájába)
+Ha szeretnél további nyelveket hozzáadni/használni, tölsd le a `more_languages.json` nevű fájlt, és ezt a bővítményt rakd abba a mappába, ahol a `main.py` vagy a `ZLockCore.exe` található. (Linux on abba a mappába kell rakni amelyikben a futtatható bináris van) (A ZLockCore_installer automatikusan telepíti a more_laungages.json fájlt a program mappájába.)
 
 Ha ez a fájl jelen van, a program automatikusan felkínálja a benne szereplő nyelveket is a menüben. Ha nincs, akkor csak az alapértelmezett angol és magyar közül lehet választani.
 
