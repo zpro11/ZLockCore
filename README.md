@@ -23,6 +23,8 @@ ZLockCore is a graphical file vault manager application for Windows, protected b
 
 Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer.exe for a standard system-wide installation, or the ZLockCore_executable.zip file. (For Linux, use the ZLockCore_executable_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary.
 
+(The installer was created using software called Inno Setup Compiler.)
+
 # Running main.py:
 
 1. **Python 3.8+ required**

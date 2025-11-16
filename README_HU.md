@@ -23,6 +23,8 @@ ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fá
 
 Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer.exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_executable.zip fájlt. (Linuxra a ZLockCore_executable_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist.
 
+(Az Installer az Inno Setup Compiler nevű szoftverrel készült)
+
 # main.py futtatása:
 
 1. **Python 3.8+ szükséges**
