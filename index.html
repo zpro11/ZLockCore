@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZLockCore — Vault Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            color: #222;
+        }
+        header {
+            background: #1a1a1a;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #langSwitch {
+            cursor: pointer;
+            background: #333;
+            padding: 8px 14px;
+            border-radius: 6px;
+            user-select: none;
+        }
+        #content {
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            overflow-x: auto;
+            border-radius: 6px;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h2>ZLockCore — Vault Manager</h2>
+    <div id="langSwitch">HU</div>
+</header>
+
+<div id="content"></div>
+
+<script>
+    const en = `
+<h1>ZLockCore — Vault Manager</h1>
+<p><a href="https://github.com/zpro11/ZLockCore">https://github.com/zpro11/ZLockCore</a></p>
+
+<p>ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.</p>
+
+<h2>Main Features</h2>
+<ul>
+<li>Manage multiple vaults, each in a separate folder</li>
+<li>Encrypt and decrypt files using the AES-GCM algorithm</li>
+<li>Password and recovery key protection</li>
+<li>Add and restore files, import/export vaults</li>
+<li>Password reset with recovery key</li>
+<li>Modern Hungarian GUI (Tkinter)</li>
+<li>PyInstaller .exe build</li>
+</ul>
+
+<h2>Creating the exe manually</h2>
+<pre><code>pip install pyinstaller
+pyinstaller --clean --onedir --noconsole --noupx --icon=icon.ico main.py
+</code></pre>
+
+<h2>Installation and Running</h2>
+<p>Download from the Releases page: ZLockCore_installer.exe or ZLockCore_executable.zip.</p>
+
+<h2>Running main.py</h2>
+<pre><code>pip install cryptography
+python main.py
+</code></pre>
+
+<h2>Usage</h2>
+<p>Same steps as your README…</p>
+
+<hr>
+<p><b>Created by Zoárd Gódor, developer of ZLockCore</b></p>
+`;
+
+    const hu = `
+<h1>ZLockCore — Vault Manager</h1>
+<p><a href="https://github.com/zpro11/ZLockCore">https://github.com/zpro11/ZLockCore</a></p>
+
+<p>ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fájlszéf-kezelő Windowsra.</p>
+
+<h2>Fő funkciók</h2>
+<ul>
+<li>Több széf kezelése</li>
+<li>AES-GCM titkosítás</li>
+<li>Jelszó + recovery kulcs</li>
+<li>Fájlok hozzáadása, exportálása</li>
+<li>Jelszó visszaállítás recovery kulccsal</li>
+<li>Modern magyar GUI</li>
+<li>PyInstaller .exe</li>
+</ul>
+
+<h2>Exe készítése</h2>
+<pre><code>pip install pyinstaller
+pyinstaller --clean --onedir --noconsole --noupx --icon=icon.ico main.py
+</code></pre>
+
+<h2>Telepítés és futtatás</h2>
+<p>Töltsd le a Releases oldalról.</p>
+
+<h2>main.py futtatása</h2>
+<pre><code>pip install cryptography
+python main.py
+</code></pre>
+
+<h2>Használat</h2>
+<p>Ugyanazok a lépések, mint a README-ben…</p>
+
+<hr>
+<p><b>Készítette: Gódor Zoárd, a ZLockCore fejlesztője</b></p>
+`;
+
+    const content = document.getElementById("content");
+    const switcher = document.getElementById("langSwitch");
+
+    let current = "en";
+    content.innerHTML = en;
+
+    switcher.onclick = () => {
+        if (current === "en") {
+            current = "hu";
+            switcher.textContent = "EN";
+            content.innerHTML = hu;
+        } else {
+            current = "en";
+            switcher.textContent = "HU";
+            content.innerHTML = en;
+        }
+    };
+</script>
+
+</body>
+</html>
