@@ -64,8 +64,8 @@ Find the latest version of the program at: https://github.com/zpro11/ZLockCore/r
 - Decrypted files: in the `plain/` folder (only after unlocking)
 - Metadata: `vault.meta.json`, `vault_status.json`
 
-## License
-See: LICENSE.txt
+## License GPL v3.0
+See: https://github.com/zpro11/ZLockCore/blob/main/LICENSE.txt
 BY INSTALLING AND USING THE PROGRAM, YOU ACCEPT THE LICENSE AGREEMENT.
 
 ## Developer Information
@@ -88,4 +88,5 @@ If this file is present, the program will automatically offer the languages list
 ---
 
 **Created by Zoárd Gódor, developer of ZLockCore**
+
 
