@@ -64,7 +64,7 @@ Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.co
 - Visszafejtett fájlok: `plain/` mappában (csak feloldás után)
 - Metaadatok: `vault.meta.json`, `vault_status.json`
 
-## Licenc
+## Licenc GPL v3.0
 Lásd: LICENSE.txt
 A PROGRAM TELEPÍTÉSÉVEL ÉS HASZNÁLATÁVAL ELFOGADOD A LICENC SZERZŐDÉST.
 
