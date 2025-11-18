@@ -2,16 +2,14 @@
 
 ## https://github.com/zpro11/ZLockCore
 
-ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fájlszéf-kezelő alkalmazás Windowsra. A program lehetővé teszi titkosított széfek létrehozását, fájlok biztonságos tárolását, valamint a széfek feloldását, lezárását, importálását, átnevezését és törlését.
+ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fájlszéf-kezelő alkalmazás. A program lehetővé teszi titkosított széfek létrehozását, fájlok biztonságos tárolását, valamint a széfek feloldását, lezárását, importálását, átnevezését és törlését.
 
 ## Fő funkciók
 - Több széf kezelése, mindegyik külön mappában
 - Fájlok titkosítása és visszafejtése AES-GCM algoritmussal
 - Jelszavas és recovery kulcsos (szólistás) védelem
-- Fájlok hozzáadása, visszaállítása, széfek importálása/exportálása
 - Jelszó visszaállítása recovery kulccsal
-- Modern, magyar nyelvű grafikus felület (Tkinter)
-- Pyinstaller-el készített futtatható .exe fájl.
+- Pyinstaller-el készített futtatható fájl.
 
 ## Az exe manuális elkészítése
 ```sh
@@ -23,7 +21,7 @@ ZLockCore egy grafikus, jelszóval és opcionális recovery kulccsal védett fá
    ```
 ## Telepítés és futtatás
 
-Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer.exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_executable.zip fájlt. (Linuxra a ZLockCore_executable_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist. (Linuxon előbb adj engedéjezd hogy ez programként futhasson. terminálba írd be: chmod +X [A futtatható bináris neve])
+Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.com/zpro11/ZLockCore/releases Windows-hoz tölsd le a ZLockCore_installer_[verzió].exe-t az alap, rendszerszintű telepítéshez, vagy a ZLockCore_[verzió].zip fájlt. (Linuxra a ZLockCore_[verzió]_LINUX.zip fájlt.) Az installer esetében kövesd a képernyőn megjelenő utasításokat. ZIP esetén bonsd ki egy mappába a tartalmát, és futtasd a futtatható binárist. (Linuxon előbb adj engedéjezd hogy ez programként futhasson. terminálba írd be: chmod +X [A futtatható bináris neve])
 
 (Az Installer az Inno Setup Compiler nevű szoftverrel készült)
 
@@ -47,7 +45,7 @@ Keresd meg a program legfrissebb verzióját ezen a webhelyen: https://github.co
 2. **Széf feloldása**
    - Válaszd ki a széfet, majd kattints a "Feloldás" gombra, add meg a jelszót
 3. **Fájlok hozzáadása**
-   - Feloldott széf esetén kattints a "Fájlok hozzáadása" gombra, válaszd ki a fájlokat
+   - Kattints a "Széf megjelenítése" gombra. Ide lehet behúzni fájlokat és mappákat.
 4. **Széf lezárása**
    - Kattints a "Lezárás" gombra. A fájlok ismét titkosításra kerülnek
    - (Ha a széf mappát tartalmazott, a mappa felbomlik, vagyis minden amit a mappa tartalmazott, kijön belőle, és a mappa törlődik. de a fájlok nem vesznek el.)

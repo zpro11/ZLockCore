@@ -2,16 +2,14 @@
 
 ## https://github.com/zpro11/ZLockCore
 
-ZLockCore is a graphical file vault manager application for Windows, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
+ZLockCore is a graphical file vault manager application,, protected by a password and an optional recovery key. The program allows you to create encrypted vaults, securely store files, and unlock, lock, import, rename, and delete vaults.
 
 ## Main Features
 - Manage multiple vaults, each in a separate folder
 - Encrypt and decrypt files using the AES-GCM algorithm
 - Password and recovery key (word list) protection
-- Add and restore files, import/export vaults
 - Password reset with recovery key
-- Modern, Hungarian-language graphical interface (Tkinter)
-- Executable .exe file created with PyInstaller
+- Executable file created with PyInstaller
 
 ## Creating the exe manually
 ```sh
@@ -23,7 +21,7 @@ ZLockCore is a graphical file vault manager application for Windows, protected b
    ```
 ## Installation and Running
 
-Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer.exe for a standard system-wide installation, or the ZLockCore_executable.zip file. (For Linux, use the ZLockCore_executable_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary. (On Linux, first allow it to run as a program. Type the following into the terminal: chmod +X [The name of the executable binary])
+Find the latest version of the program at: https://github.com/zpro11/ZLockCore/releases For Windows, download the ZLockCore_installer_[version].exe for a standard system-wide installation, or the ZLockCore_[version].zip file. (For Linux, use the ZLockCore_[version]_LINUX.zip file.) For the installer, follow the on-screen instructions. For the ZIP, extract its contents to a folder and run the executable binary. (On Linux, first allow it to run as a program. Type the following into the terminal: chmod +X [The name of the executable binary])
 
 (The installer was created using software called Inno Setup Compiler.)
 
@@ -47,7 +45,7 @@ Find the latest version of the program at: https://github.com/zpro11/ZLockCore/r
 2. **Unlock a vault**
    - Select the vault, then click the "Unlock" button and enter the password
 3. **Add files**
-   - With the vault unlocked, click the "Add Files" button and select the files
+   - Click on the "Show Vault" button. You can drag files and folders here.
 4. **Lock the vault**
    - Click the "Lock" button. The files will be encrypted again
    - (If the safe contained a folder, the folder will be broken up, meaning that everything contained in the folder will be removed from it and the folder will be deleted. However, the files will not be lost.)
